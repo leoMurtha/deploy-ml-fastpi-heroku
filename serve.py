@@ -6,7 +6,6 @@ from fastapi import FastAPI
 from typing import Literal
 from pandas import DataFrame
 import numpy as np
-import uvicorn
 from pydantic import BaseModel
 from src.ml.utils import get_object
 from src.ml.data import process_data, cat_features, original_columns
