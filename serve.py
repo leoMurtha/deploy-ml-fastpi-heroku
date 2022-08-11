@@ -150,8 +150,8 @@ async def predict(input: UserCensusData):
     y = inference(model, X)
     pred = lb.inverse_transform(y)[0]
 
-    return {"Income prediction": pred}
+    return {"Income": pred}
 
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+# if __name__ == "__main__":
+#     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
