@@ -1,27 +1,70 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
+import pandas as pd
+from imblearn.over_sampling import SMOTE
+
+original_columns = [
+    "age",
+    "workclass",
+    "fnlwgt",
+    "education",
+    "education_num",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "capital_gain",
+    "capital_loss",
+    "hours-per-week",
+    "native-country"]
+
+cat_features = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
+]
+
+
+def load_data(data_path):
+    """Loads pandas dataframe in data_path (data must be CSV)"""
+    try:
+        return pd.read_csv(data_path)
+    except Exception as e:
+        print(e)
+        print('Data must be CSV format')
 
 
 def process_data(
-    X, categorical_features=[], label=None, training=True, encoder=None, lb=None
+    X, categorical_features=[],
+    label=None, training=True, encoder=None, lb=None
 ):
     """ Process the data used in the machine learning pipeline.
 
-    Processes the data using one hot encoding for the categorical features and a
+    Processes the data using one hot encoding for the categorical features
+    and a
     label binarizer for the labels. This can be used in either training or
     inference/validation.
 
-    Note: depending on the type of model used, you may want to add in functionality that
+    Note: depending on the type of model used, you may want to add in
+    functionality that
     scales the continuous data.
 
     Inputs
     ------
     X : pd.DataFrame
-        Dataframe containing the features and label. Columns in `categorical_features`
+        Dataframe containing the features and label. Columns in
+        `categorical_features`
     categorical_features: list[str]
         List containing the names of the categorical features (default=[])
     label : str
-        Name of the label column in `X`. If None, then an empty array will be returned
+        Name of the label column in `X`. If None, then an empty array will
+        be returned
         for y (default=None)
     training : bool
         Indicator if training mode or inference/validation mode.
@@ -37,10 +80,12 @@ def process_data(
     y : np.array
         Processed labels if labeled=True, otherwise empty np.array.
     encoder : sklearn.preprocessing._encoders.OneHotEncoder
-        Trained OneHotEncoder if training is True, otherwise returns the encoder passed
+        Trained OneHotEncoder if training is True, otherwise returns
+        the encoder passed
         in.
     lb : sklearn.preprocessing._label.LabelBinarizer
-        Trained LabelBinarizer if training is True, otherwise returns the binarizer
+        Trained LabelBinarizer if training is True, otherwise
+        returns the binarizer
         passed in.
     """
 
@@ -58,13 +103,20 @@ def process_data(
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
         y = lb.fit_transform(y.values).ravel()
+
     else:
         X_categorical = encoder.transform(X_categorical)
         try:
             y = lb.transform(y.values).ravel()
         # Catch the case where y is None because we're doing inference.
         except AttributeError:
-            pass
+            print('Inference Mode = No y')
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
+
+    if training:
+        print('Balancing the dataset')
+        oversample = SMOTE()
+        X, y = oversample.fit_resample(X, y)
+
     return X, y, encoder, lb

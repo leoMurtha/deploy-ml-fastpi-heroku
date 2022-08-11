@@ -3,10 +3,12 @@ pandas
 scikit-learn
 pytest
 requests
-fastapi==0.63.0
+fastapi
 uvicorn
 gunicorn
 pycaret
 autoviz
 pandas-profiling
 autopep8
+imbalanced-learn
+flake8
