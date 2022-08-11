@@ -2,15 +2,19 @@
 This module has the functions for training and testing the model,
 and model inference
 """
+import sys
+print(sys.path)
+
+
+sys.path.append(".")
+sys.path.append("./")
+sys.path.append("./src")
+
 from ml.data import process_data
 from sklearn.model_selection import KFold, cross_val_score
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-import sys
-print(sys.path)
 
-sys.path.append("./")
-sys.path.append("./src")
 
 
 def train_model(X_train, y_train):
