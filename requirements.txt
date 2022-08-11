@@ -10,3 +10,5 @@ pandas-profiling
 autopep8
 imbalanced-learn
 flake8
+s3fs
+boto3
