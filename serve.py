@@ -17,8 +17,6 @@ sys.path.append("./src/ml")
 sys.path.append("./src/")
 sys.path.append(".")
 
-
-
 # Set up DVC on Heroku
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
