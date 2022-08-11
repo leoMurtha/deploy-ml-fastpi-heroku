@@ -6,8 +6,6 @@ requests
 fastapi
 uvicorn
 gunicorn
-pycaret
-autoviz
 pandas-profiling
 autopep8
 imbalanced-learn
