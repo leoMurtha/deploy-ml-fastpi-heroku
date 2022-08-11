@@ -1,5 +1,4 @@
 [core]
     remote = storage
-    autostage = true
 ['remote "storage"']
-    url = s3://udacity-mle/chapter3/
+    url = s3://udacity-mle/income/
